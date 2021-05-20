@@ -164,7 +164,7 @@ class NameDaysProvider {
             $generatedHTML .= '<li>' . $singleNameDay . '</li>';
         }
 
-        $generatedHTML .= '<ul>';
+        $generatedHTML .= '</ul>';
 
         return $generatedHTML;
     }

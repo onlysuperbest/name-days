@@ -48,7 +48,7 @@ final class nameDaysTest extends TestCase
 
         $stub->method( 'getRemoteContent' )->willReturn( array( 'body' => '<p class="vardadieniai"><a>Name 1</a></p>' ) );
 
-        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><ul>', $stub->processTodayNameDaysShortcode( array() ) );
+        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li></ul>', $stub->processTodayNameDaysShortcode( array() ) );
     }
 
     public function testMultipleNames() {
@@ -56,7 +56,7 @@ final class nameDaysTest extends TestCase
 
         $stub->method( 'getRemoteContent' )->willReturn( array( 'body' => '<p class="vardadieniai"><a>Name 1</a><a>Name 2</a><a>Name 3</a></p>' ) );
 
-        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li><ul>', $stub->processTodayNameDaysShortcode( array() ) );
+        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li></ul>', $stub->processTodayNameDaysShortcode( array() ) );
     }
 
     public function testHTMLWithAttributes() {
@@ -66,6 +66,6 @@ final class nameDaysTest extends TestCase
             array( 'body' => '<p aria-label="true" class="vardadieniai" title="Some Text"><a href="https://www.example.com">Name 1</a><a href="#">Name 2</a><a>Name 3</a></p>' )
         );
 
-        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li><ul>', $stub->processTodayNameDaysShortcode( array() ) );
+        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li></ul>', $stub->processTodayNameDaysShortcode( array() ) );
     }
 }
