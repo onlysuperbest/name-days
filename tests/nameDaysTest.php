@@ -38,13 +38,20 @@ function wp_timezone() {
 
 final class nameDaysTest extends TestCase
 {
-    public function testClassLoaded(): void
+    public function testMainClassLoaded(): void
     {
         $this->assertTrue( class_exists( 'NameDaysProvider' ) );
     }
 
+    public function testCotnentGeneratorLoaded(): void
+    {
+        $this->assertTrue( class_exists( 'ContentGenerator' ) );
+    }
+
     public function testSingleName() {
-        $stub = $this->getMockBuilder( NameDaysProvider::class )->setMethods(['getRemoteContent'])->getMock();
+        $contentGenerator = new ContentGenerator();
+
+        $stub = $this->getMockBuilder( NameDaysProvider::class )->setConstructorArgs(array($contentGenerator))->setMethods(['getRemoteContent'])->getMock();
 
         $stub->method( 'getRemoteContent' )->willReturn( array( 'body' => '<p class="vardadieniai"><a>Name 1</a></p>' ) );
 
@@ -52,7 +59,9 @@ final class nameDaysTest extends TestCase
     }
 
     public function testMultipleNames() {
-        $stub = $this->getMockBuilder( NameDaysProvider::class )->setMethods(['getRemoteContent'])->getMock();
+        $contentGenerator = new ContentGenerator();
+
+        $stub = $this->getMockBuilder( NameDaysProvider::class )->setConstructorArgs(array($contentGenerator))->setMethods(['getRemoteContent'])->getMock($contentGenerator);
 
         $stub->method( 'getRemoteContent' )->willReturn( array( 'body' => '<p class="vardadieniai"><a>Name 1</a><a>Name 2</a><a>Name 3</a></p>' ) );
 
@@ -60,12 +69,22 @@ final class nameDaysTest extends TestCase
     }
 
     public function testHTMLWithAttributes() {
-        $stub = $this->getMockBuilder( NameDaysProvider::class )->setMethods(['getRemoteContent'])->getMock();
+        $contentGenerator = new ContentGenerator();
+
+        $stub = $this->getMockBuilder( NameDaysProvider::class )->setConstructorArgs(array($contentGenerator))->setMethods(['getRemoteContent'])->getMock($contentGenerator);
 
         $stub->method( 'getRemoteContent' )->willReturn(
             array( 'body' => '<p aria-label="true" class="vardadieniai" title="Some Text"><a href="https://www.example.com">Name 1</a><a href="#">Name 2</a><a>Name 3</a></p>' )
         );
 
         $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li></ul>', $stub->processTodayNameDaysShortcode( array() ) );
+    }
+
+    public function testContentGenerator() {
+        $contentGenerator = new ContentGenerator();
+
+        $sampleData = array( 'Name 1', 'Name 2', 'Name 3' );
+
+        $this->assertSame( '<ul class="todays_name_days"><li>Name 1</li><li>Name 2</li><li>Name 3</li></ul>', $contentGenerator->generate( $sampleData ) );
     }
 }

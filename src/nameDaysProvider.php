@@ -5,7 +5,10 @@
 define( 'NAME_DAYS_EXPIRATION', 24 * 60 * 60 );
 
 class NameDaysProvider {
-    public function __construct() {
+    private $contentGenerator = null;
+
+    public function __construct($generator) {
+        $this->contentGenerator = $generator;
         $this->installActionsAndFilters();
     }
 
@@ -158,14 +161,6 @@ class NameDaysProvider {
             return '<p>Sorry, there is no data to display at the moment.</p>';
         }
 
-        $generatedHTML = '<ul class="todays_name_days">';
-
-        foreach ( $todaysNameDays as $singleNameDay ) {
-            $generatedHTML .= '<li>' . $singleNameDay . '</li>';
-        }
-
-        $generatedHTML .= '</ul>';
-
-        return $generatedHTML;
+        return $this->contentGenerator->generate($todaysNameDays);
     }
 }

@@ -13,5 +13,8 @@
 */
 
 require_once( dirname(__FILE__) . '/src/nameDaysProvider.php' );
+require_once( dirname(__FILE__) . '/src/contentGenerator.php' );
 
-$name_days_provider = new NameDaysProvider();
+$contentGenerator = new contentGenerator();
+
+$nameDaysProvider = new NameDaysProvider($contentGenerator);
