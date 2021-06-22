@@ -18,11 +18,7 @@ class ContentGenerator {
     }
 
     private function arrayReadyToIterate($todaysNameDays) {
-        if (is_array($todaysNameDays) ) {
-            return true;
-        }
-
-        if (count($todaysNameDays) > 0) {
+        if (is_array($todaysNameDays) && (count($todaysNameDays) > 0)) {
             return true;
         }
 
